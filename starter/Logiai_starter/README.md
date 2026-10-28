@@ -1,1 +1,0 @@
-# Logiai_starter
