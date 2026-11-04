@@ -113,3 +113,4 @@ CORS est une politique de sécurité appliquée par les navigateurs web. curl n'
 Parce que la validation du navigateur peut être contournée ou désactivée. Un utilisateur peut envoyer directement des requêtes avec curl ou Postman. L'API doit donc vérifier elle-même toutes les données reçues pour garantir la sécurité et la fiabilité du système.
 
 ## 6. Lien de la pull request
+https://github.com/lolo952/Logiai_starter/pull/3
