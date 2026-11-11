@@ -113,3 +113,42 @@ CORS est une politique de sécurité appliquée par les navigateurs web. curl n'
 Parce que la validation du navigateur peut être contournée ou désactivée. Un utilisateur peut envoyer directement des requêtes avec curl ou Postman. L'API doit donc vérifier elle-même toutes les données reçues pour garantir la sécurité et la fiabilité du système.
 
 ## 6. Lien de la pull request
+
+https://github.com/lolo952/Logiai_starter/pull/3
+
+## 7. Atelier 5 — Docker et déploiement
+
+### 7.1 Conteneurisation
+
+J’ai utilisé Docker pour lancer l’API LogiAI dans un conteneur et l’interface web dans un autre conteneur utilisant Nginx. Docker Compose permet de démarrer les deux services.
+
+- API : port 8001 sur la machine hôte.
+- Interface web : port 8080 sur la machine hôte.
+- Nginx transmet les requêtes `/api/` à l’API.
+- Les clés d’authentification sont configurées avec des variables d’environnement.
+
+### 7.2 Tests effectués
+
+| Test | Résultat obtenu |
+|---|---|
+| Démarrage avec Docker Compose | Les deux conteneurs démarrent |
+| État du conteneur API | Healthy |
+| Requête `/api/health` via Nginx | HTTP 200 |
+| Prédiction sans clé API | HTTP 401 |
+| Prédiction avec une clé valide | HTTP 200 |
+| Tests automatisés avec pytest | 28 tests réussis |
+
+### 7.3 Résultat de la prédiction
+
+Pour un exemple de livraison, l’API a retourné les valeurs suivantes :
+
+- Probabilité de retard : 0,732, soit 73,2 %.
+- Seuil d’alerte : 0,4, soit 40 %.
+- Alerte : `true`.
+- Version du modèle : `1.0`.
+
+La probabilité obtenue dépasse le seuil configuré, donc une alerte est déclenchée.
+
+### 7.4 Conclusion
+
+Cette activité m’a permis de conteneuriser l’API et l’interface web, de configurer Nginx comme reverse proxy et de vérifier le fonctionnement de l’authentification. Les tests confirment que l’application fonctionne dans l’environnement Docker utilisé pendant l’atelier.
