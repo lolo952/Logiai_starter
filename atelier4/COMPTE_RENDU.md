@@ -152,3 +152,59 @@ La probabilité obtenue dépasse le seuil configuré, donc une alerte est décle
 ### 7.4 Conclusion
 
 Cette activité m’a permis de conteneuriser l’API et l’interface web, de configurer Nginx comme reverse proxy et de vérifier le fonctionnement de l’authentification. Les tests confirment que l’application fonctionne dans l’environnement Docker utilisé pendant l’atelier.
+## 8. Atelier 6 — Packaging Python et distribution
+
+### 8.1 Objectif
+
+L'objectif de cet atelier est de transformer le code LogiAI en package Python installable, de proposer une commande en ligne pour lancer une prédiction et de séparer le code des ressources nécessaires à l'exécution.
+
+### 8.2 Configuration du package
+
+Le fichier `pyproject.toml` définit les métadonnées du projet, les dépendances principales, les dépendances facultatives et la commande `logiai-predict`.
+
+L'installation éditable a été vérifiée avec `pip install -e ".[api,dev]"`.
+
+### 8.3 Tests automatisés
+
+La commande `python -m pytest -v` a été exécutée.
+
+| Vérification | Résultat |
+|---|---|
+| Tests API | Réussis |
+| Tests de robustesse et de limites | Réussis |
+| Tests de sécurité | Réussis |
+| Tests de packaging | Réussis |
+| Total | 30 tests réussis |
+
+Un avertissement de dépréciation lié à Starlette et à httpx a été affiché. Il n'a pas entraîné d'échec des tests.
+
+### 8.4 Commande en ligne
+
+La commande `logiai-predict` permet de lire un fichier JSON et d'afficher la probabilité estimée ainsi que le statut d'alerte.
+
+Exemple :
+
+```powershell
+logiai-predict .\livraison.json
+```
+
+Pour l'exemple testé, la probabilité affichée était de 73 %, avec une alerte déclenchée et un seuil de 0,4.
+
+### 8.5 Construction de la distribution
+
+La commande `python -m build` a généré les deux distributions suivantes dans le répertoire `dist/` :
+
+- une archive source `.tar.gz` ;
+- une distribution binaire Python `.whl`.
+
+Une installation isolée du wheel a également été testée. La variable `LOGIAI_HOME` a été configurée pour permettre à la commande de retrouver le modèle et les ressources du projet.
+
+### 8.6 Intégration Docker
+
+Le Dockerfile installe le package Python et copie séparément les ressources nécessaires dans l'image. La variable `LOGIAI_HOME` est configurée sur `/app`.
+
+La construction Docker a réussi. Les vérifications ont confirmé que Python charge le package depuis `site-packages` et que le modèle est accessible dans le conteneur.
+
+### 8.7 Conclusion
+
+Cet atelier a permis de structurer LogiAI comme package Python, de déclarer une commande CLI, de construire une distribution et d'intégrer l'installation du package dans Docker. La séparation entre le code et les ressources rend leur configuration plus explicite. Les tests automatisés et les vérifications de construction permettent de contrôler le fonctionnement de ces éléments.
