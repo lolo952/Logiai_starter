@@ -1,3 +1,4 @@
+
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -5,7 +6,10 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY logiai/ ./logiai/
+COPY pyproject.toml /tmp/logiai-build/
+COPY logiai/ /tmp/logiai-build/logiai/
+RUN pip install --no-cache-dir --no-deps /tmp/logiai-build \
+    && rm -rf /tmp/logiai-build
 COPY data/ ./data/
 COPY models/ ./models/
 

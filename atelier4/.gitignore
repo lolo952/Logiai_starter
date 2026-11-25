@@ -5,3 +5,18 @@ __pycache__/
 .env
 data/*.csv
 models/
+
+# Fichiers générés par le packaging Python
+build/
+dist/
+*.egg-info/
+
+# Environnements virtuels supplémentaires
+.venv_test/
+venv/
+
+# Outils de développement
+.ruff_cache/
+
+# Fichiers de test locaux
+livraison_500.json
